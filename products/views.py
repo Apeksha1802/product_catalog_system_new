@@ -36,14 +36,14 @@ def retrieve_products(request):
     return Response(products_serializer.data,status=status.HTTP_200_OK)
 
 #to update or delete a product based on product id
-@api_view(['PUT','DELETE'])
+@api_view(['PATCH','DELETE'])
 def update_products(request,pk):
     try:
         product=ProductModel.objects.get(id=pk)
     except ProductModel.DoesNotExist:
         return Response({'message':'Product does not exist'},status=status.HTTP_404_NOT_FOUND)
     
-    if request.method == 'PUT':
+    if request.method == 'PATCH':
         product_serializer=ProductSerializer(product,data=request.data)
         if product_serializer.is_valid():
             product_serializer.save()
